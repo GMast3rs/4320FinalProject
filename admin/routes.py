@@ -10,9 +10,12 @@ def login():
         admin_details = request.get_json
         username = admin_details.get('username')
         password = admin_details.get('password')
+
         admin = Admin.query.filter_by(username=username).first()
+
         if admin and admin.password == password:
             return render_template('adminloggedin.html')
         else:
             return render_template('admin.html', message="Login failed")
+        
     return render_template('admin.html', message="Please login")
