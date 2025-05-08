@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head><title>Reserve a Seat</title></head>
+<body>
+    <h1>Reserve Your Seat</h1>
+    <form method="POST">
+        First Name: <input type="text" name="first_name" required>
+        Last Name: <input type="text" name="last_name" required>
+        Row: <input type="number" name="seat_row" min="0" max="11" required>
+        Column: <input type="number" name="seat_column" min="0" max="3" required>
+        <button type="submit">Reserve</button>
+    </form>
+</body>
+</html>
