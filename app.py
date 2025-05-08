@@ -9,7 +9,7 @@ def create_app():
 
     db.init_app(app)
 
-    from .admin import admin_bp
+    from admin.init import admin_bp
     app.register_blueprint(admin_bp)
 
     return app
