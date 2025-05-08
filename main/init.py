@@ -1,6 +1,6 @@
 from flask import request, flash
 from flask_sqlalchemy import SQLAlchemy
-from models import Reservation  
+#dofrom models import Reservation  
 
 def get_user_input():
     first_name = request.form.get('first_name', '').strip()
