@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . /app
 
-RUN pip install --no-cache-dir flask pandas matplotlib requests pygal
+RUN pip install --no-cache-dir flask pandas matplotlib requests pygal flask_sqlalchemy
 
 ENV FLASK_APP=app
 ENV FLASK_RUN_HOST=0.0.0.0
