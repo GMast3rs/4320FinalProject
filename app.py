@@ -3,6 +3,9 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+def generate_pricing_matrix():
+        return [[100 + (row * 10) + col for col in range(4)] for row in range(12)]
+
 def create_app():
     print("App is running")
     app = Flask(__name__)
