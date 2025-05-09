@@ -1,5 +1,6 @@
 from flask import request, flash
 from flask_sqlalchemy import SQLAlchemy
+from admin.models import Reservation
 #dofrom models import Reservation  
 
 def get_user_input():
@@ -23,7 +24,6 @@ def get_user_input():
         except ValueError:
             errors.append("Seat row and column must be numbers.")
 
-    # Seat must be available
     if not errors:  
         seat_taken = Reservation.query.filter_by(seat_row=seat_row, seat_column=seat_column).first()
         if seat_taken:
