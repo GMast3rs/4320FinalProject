@@ -1,7 +1,6 @@
 from flask import request, flash
-from flask_sqlalchemy import SQLAlchemy
+from app import db
 from admin.models import Reservation
-#dofrom models import Reservation  
 
 def get_user_input():
     first_name = request.form.get('first_name', '').strip()
@@ -25,18 +24,19 @@ def get_user_input():
             errors.append("Seat row and column must be numbers.")
 
     if not errors:  
-        seat_taken = Reservation.query.filter_by(seat_row=seat_row, seat_column=seat_column).first()
+        seat_taken = Reservation.query.filter_by(seatRow=seat_row, seatColumn=seat_column).first()
         if seat_taken:
             errors.append(f"Seat {seat_row}-{seat_column} is already taken.")
 
     if errors:
         for error in errors:
             flash(error, 'error')  
-        return {"errors": errors}  
+        return None
     else:
         return {
             'first_name': first_name,
             'last_name': last_name,
             'seat_row': seat_row,
-            'seat_column': seat_column
+            'seat_column': seat_column,
+            'e_ticket': "".join([f"{name_char}{infotc_char}" for name_char, infotc_char in zip(first_name, "INFOTC4320")]) + "INFOTC4320"[len(first_name):]
         }
