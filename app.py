@@ -3,8 +3,14 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-def generate_pricing_matrix():
-        return [[100 + (row * 10) + col for col in range(4)] for row in range(12)]
+'''
+Function to generate cost matrix for flights
+Input: none
+Output: Returns a 12 x 4 matrix of prices
+'''
+def get_cost_matrix():
+    cost_matrix = [[100, 75, 50, 100] for row in range(12)]
+    return cost_matrix
 
 def create_app():
     print("App is running")
@@ -18,6 +24,9 @@ def create_app():
 
     from admin.routes import admin_bp
     app.register_blueprint(admin_bp)
+
+    from reserve.routes import reserve_bp
+    app.register_blueprint(reserve_bp)
 
     @app.route('/')
     def home():
