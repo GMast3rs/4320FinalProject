@@ -1,7 +1,7 @@
 from flask import Blueprint, request, render_template, redirect, flash, url_for
 from admin.init import Admin
 from admin.models import Reservation, db
-from app import generate_pricing_matrix
+from app import get_cost_matrix
 
 admin_bp = Blueprint('admin', __name__)
 
@@ -25,7 +25,7 @@ def login():
 def dashboard():
     reservations = Reservation.query.all()
     
-    pricing = generate_pricing_matrix()
+    pricing = get_cost_matrix()
     total_sales = sum(pricing[r.seatRow][r.seatColumn] for r in reservations)
     
     return render_template(
