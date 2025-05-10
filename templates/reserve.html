@@ -1,15 +1,155 @@
 <!DOCTYPE html>
-<html>
-<a href="/">Home</a>
-<head><title>Reserve a Seat</title></head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserve a Seat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00a76f;
+            --secondary: #212529;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: var(--secondary);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        
+        header {
+            margin-bottom: 3rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #6c757d;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        
+         .link {
+            font-size: 1.2rem;
+            color: #0079e2;
+        }
+
+        .seat-container {
+            margin: 20px 0;
+        }
+
+        .seat-row {
+            margin-bottom: 5px;
+        }
+
+        .seat {
+            display: inline-block;
+            width: 50px;
+            height: 30px;
+            border: 1px solid #000;
+            margin-right: 5px;
+            text-align: center;
+            line-height: 30px;
+        }
+
+        .available {
+            background-color: #5fe05f;
+        }
+
+        .reserved {
+            background-color: #da5353;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+        
+        .btn-outline {
+            background-color: var(--secondary);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+            cursor: pointer;
+        }
+        
+    </style>
+</head>
 <body>
+    <div class="container">
     <h1>Reserve Your Seat</h1>
-    <form method="POST">
+    <a class = "link" href ="/">Home</a>
+    <form class = "subtitle" action="{{ url_for('reserve.reservation') }}" method="POST">
         First Name: <input type="text" name="first_name" required>
+        <br>
         Last Name: <input type="text" name="last_name" required>
+        <br>
         Row: <input type="number" name="seat_row" min="0" max="11" required>
+        <br>
         Column: <input type="number" name="seat_column" min="0" max="3" required>
-        <button type="submit">Reserve</button>
+        <br>
+        <button class = "btn btn-outline" type="submit">Reserve</button>
+        <br>
+        
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div style="color: red; margin-top: 10px;">
+                    {% for message in messages %}
+                        {{ message }}<br>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
     </form>
+
+    <div class="seat-container">
+        <h3>Seating Chart</h3>
+        {% for row in range(12) %}
+            <div class="seat-row">
+                {% for col in range(4) %}
+                    {% set reserved = reservations | selectattr("seatRow", "equalto", row) | selectattr("seatColumn", "equalto", col) | list %}
+                    <div class="seat {% if reserved %}reserved{% else %}available{% endif %}">
+                        {{ row }}-{{ col }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+    </div>
 </body>
 </html>
